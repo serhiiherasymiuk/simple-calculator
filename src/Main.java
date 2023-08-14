@@ -1,45 +1,56 @@
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter value a: ");
-        int a;
-        a = Integer.parseInt(in.nextLine());
-        System.out.println("Enter value b: ");
-        int b;
-        b = Integer.parseInt(in.nextLine());
-        System.out.println("Enter an option (* / + -): ");
-        String s;
-        s = in.nextLine();
-        int answer = 0;
+
+        int a = getInputValue(in, "Enter value a: ");
+        int b = getInputValue(in, "Enter value b: ");
+
+        System.out.println("Enter an option ( * / + - ): ");
+        String s = in.nextLine();
+
+        double answer = 0.0;
+
         switch (s) {
-            case ("*"):
+            case "*":
                 answer = a * b;
                 break;
-            case ("/"):
+            case "/":
                 if (b == 0) {
                     System.out.println("Value cannot be divided by zero");
                     System.exit(0);
+                } else {
+                    answer = (double) a / b;
                 }
-                else
-                    answer = a / b;
                 break;
-            case ("+"):
+            case "+":
                 answer = a + b;
                 break;
-            case ("-"):
+            case "-":
                 answer = a - b;
                 break;
             default:
-                System.out.println("Error");
+                System.out.println("Wrong command");
+                System.exit(0);
                 break;
         }
-        System.out.printf("Answer is: %d", answer);
+        DecimalFormat decimalFormat = new DecimalFormat("#.###");
+        System.out.printf("Answer is: %s", decimalFormat.format(answer));
+    }
 
+    private static int getInputValue(Scanner scanner, String prompt) {
+        int value;
+        while (true) {
+            try {
+                System.out.print(prompt);
+                value = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid value, try again");
+            }
+        }
+        return value;
     }
 }
